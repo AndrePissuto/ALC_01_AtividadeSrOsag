@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSAG</title>
+</head>
+
+<body>
+    <h1>Atividade do senhor OSAG</h1>
+
+    tipo de combustivel vendido: <input type="text" name="" id="ipt_tpCompustivel"><br>
+    quantidade vendida: <input type="number" name="" id="ipt_quantidadeVendida"><br>
+    hora da venda: <input type="number" name="" id="ipt_horaDaVenda"><br>
+    <button onclick="Venda()">Venda</button>
+    <button onclick="FinalizarDia()">Finalizar dia</button>
+</body>
+
+</html>
+
+<script>
+
+
+    let contDia = 0
+    function Venda() {
+        let tpCombustivel = ipt_tpCompustivel.value
+        let qtdVendida = Number(ipt_quantidadeVendida.value)
+        let horaVendida = Number(ipt_horaDaVenda.value)
+        let preco = 0
+        contDia += 1
+
+        if (tpCombustivel == "gasolina") {
+            preco = qtdVendida * 6.49
+        }
+        if (tpCombustivel == "etanol") {
+            preco = qtdVendida * 4.44
+        }
+        if (tpCombustivel == "diesel") {
+            preco = qtdVendida * 4.39
+        }
+
+
+
+        if ((tpCombustivel == "gasolina" || tpCombustivel == "etanol" || tpCombustivel == "diesel") && horaVendida >= 0 && horaVendida <= 23 && qtdVendida >= 20) {
+            if (tpCombustivel == "gasolina") {
+                preco = preco - preco * 0.0505
+            }
+            if (tpCombustivel == "etanol") {
+                preco = preco - preco * 0.048
+            }
+            if (tpCombustivel == "diesel") {
+                preco = preco - preco * 0.0303
+            }
+
+        }
+        else {
+            alert("dados invalidos")
+        }
+
+
+    }
+
+    function FinalizarDia() {
+
+    }
+
+
+</script>
