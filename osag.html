@@ -15,54 +15,83 @@
     hora da venda: <input type="number" name="" id="ipt_horaDaVenda"><br>
     <button onclick="Venda()">Venda</button>
     <button onclick="FinalizarDia()">Finalizar dia</button>
+    <div id="out_venda"></div>
 </body>
 
 </html>
 
 <script>
-
-
     let contDia = 0
+    let acumuladosDia = 0
+    let acumuladosDesconto = 0
+    let quantidadeGasolina = 0
+    let quantidadeEtanol = 0
+    let quantidadeDiesel = 0
+    let quantidadeTotal = 0
     function Venda() {
         let tpCombustivel = ipt_tpCompustivel.value
         let qtdVendida = Number(ipt_quantidadeVendida.value)
         let horaVendida = Number(ipt_horaDaVenda.value)
         let preco = 0
         contDia += 1
-
-        if (tpCombustivel == "gasolina") {
-            preco = qtdVendida * 6.49
-        }
-        if (tpCombustivel == "etanol") {
-            preco = qtdVendida * 4.44
-        }
-        if (tpCombustivel == "diesel") {
-            preco = qtdVendida * 4.39
-        }
+        let desconto = 0
 
 
 
-        if ((tpCombustivel == "gasolina" || tpCombustivel == "etanol" || tpCombustivel == "diesel") && horaVendida >= 0 && horaVendida <= 23 && qtdVendida >= 20) {
+        if ((tpCombustivel == "gasolina" || tpCombustivel == "etanol" || tpCombustivel == "diesel") && horaVendida >= 0 && horaVendida <= 23) {
             if (tpCombustivel == "gasolina") {
-                preco = preco - preco * 0.0505
+                preco = qtdVendida * 6.49
+                quantidadeGasolina += qtdVendida
             }
             if (tpCombustivel == "etanol") {
-                preco = preco - preco * 0.048
+                preco = qtdVendida * 4.44
+                quantidadeEtanol += qtdVendida
             }
             if (tpCombustivel == "diesel") {
-                preco = preco - preco * 0.0303
+                preco = qtdVendida * 4.39
+                quantidadeDiesel += qtdVendida
             }
 
+            if (qtdVendida >= 20 && horaVendida >= 6 && horaVendida <= 21) {
+                if (tpCombustivel == "gasolina") {
+                    desconto = preco * 0.0505
+                    preco = preco - desconto
+                    quantidadeGasolina += qtdVendida
+                }
+                if (tpCombustivel == "etanol") {
+                    desconto = preco * 0.048
+                    preco = preco - desconto
+                    quantidadeEtanol += qtdVendida
+                }
+                if (tpCombustivel == "diesel") {
+                    desconto = preco * 0.0303
+                    preco = preco - desconto
+                    quantidadeDiesel += qtdVendida
+                }
+            }
+            acumuladosDia += preco
+            acumuladosDesconto += desconto
+            quantidadeTotal = quantidadeDiesel + quantidadeEtanol + quantidadeGasolina;
+
+            out_venda.innerHTML += `Venda ${contDia}ª – 
+            Valor Recebido = R$ ${preco.toFixed(2)} – 
+            Desconto Concedido = R$ ${desconto.toFixed(2)} – 
+            Acumulado dos Recebimentos= R$ ${acumuladosDia.toFixed(2)} - 
+            Acumulado dos Descontos = R$ ${acumuladosDesconto.toFixed(2)}<br>`
         }
         else {
             alert("dados invalidos")
         }
-
-
     }
 
     function FinalizarDia() {
-
+            out_venda.innerHTML = `<h3><b><i><u>Resumo do fartuamento</u></i></b></h3><br>
+            Valor total recebido: ${acumuladosDia.toFixed(2)}<br>
+            Valor total dos descontos: ${acumuladosDesconto.toFixed(2)}<br>
+            Quantidade de gasolina vendida: ${quantidadeGasolina.toFixed(2)} litros == ${(quantidadeGasolina*100/quantidadeTotal).toFixed(1)}%<br>
+            Quantidade de etanol vendida: ${quantidadeEtanol.toFixed(2)} litros == ${(quantidadeEtanol*100/quantidadeTotal).toFixed(1)}%<br>
+            Quantidade de diesel vendida: ${quantidadeDiesel.toFixed(2)} litros == ${(quantidadeDiesel*100/quantidadeTotal).toFixed(1)}%<br>
+            `
     }
 
 
