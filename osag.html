@@ -51,7 +51,7 @@
                 quantidadeDiesel += qtdVendida
             }
 
-            if (qtdVendida >= 20 && horaVendida >= 6 && horaVendida <= 21) {
+            if (qtdVendida >= 20 && horaVendida <= 6 || horaVendida >= 21) {
                 if (tpCombustivel == "gasolina") {
                     desconto = preco * 0.0505
                     preco = preco - desconto
